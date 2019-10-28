@@ -3,8 +3,9 @@ import databaseConfig from '../config/database';
 import User from '../app/models/User';
 import Student from '../app/models/Student';
 import Contract from '../app/models/Contract';
+import Registration from '../app/models/Registration';
 
-const models = [User, Student, Contract];
+const models = [User, Student, Contract, Registration];
 
 /**
  * Iniciliza todos os models da api, conectano ao banco configurado
@@ -18,6 +19,9 @@ class Database {
   init() {
     this.connection = new Sequelize(databaseConfig);
     models.map(model => model.init(this.connection));
+    models.map(
+      model => model.associate && model.associate(this.connection.models)
+    );
   }
 }
 

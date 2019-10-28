@@ -5,6 +5,7 @@ import UserController from './app/controllers/UserController';
 import SessionController from './app/controllers/SessionController';
 import StudentController from './app/controllers/StudentController';
 import ContractController from './app/controllers/ContractController';
+import RegistrationController from './app/controllers/RegistrationController';
 
 const routes = new Router();
 
@@ -46,5 +47,13 @@ routes.get('/contract', ContractController.index);
 routes.post('/contract', ContractController.store);
 routes.put('/contract/:id', ContractController.update);
 routes.delete('/contract/:id', ContractController.delete);
+
+/**
+ * Rotas de matriculas da academia
+ */
+routes.get('/registration', RegistrationController.index);
+routes.post('/registration', RegistrationController.store);
+routes.put('/registration', RegistrationController.update);
+routes.delete('/registration', RegistrationController.delete);
 
 export default routes;
