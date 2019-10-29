@@ -1,4 +1,5 @@
 import User from '../models/User';
+import textProp from '../../utils/properties/textProperties';
 
 /**
  * Controlador das regras de usuarios admin do sistema
@@ -13,7 +14,9 @@ class UserController {
    */
   async store(req, res) {
     if (!(await User.isValidCreateJson(req))) {
-      return res.status(401).json({ error: 'Parâmetros inválidos.' });
+      return res
+        .status(401)
+        .json({ error: textProp.prop.get('json.request.invalid.parameters') });
     }
 
     const userExist = await User.findOne({
@@ -25,7 +28,7 @@ class UserController {
     if (userExist) {
       return res
         .status(401)
-        .json({ error: 'Usuário ja existe com esse e-mail.' });
+        .json({ error: textProp.prop.get('student.validation.already.exist') });
     }
 
     const { id, name, email, provider } = await User.create(req.body);

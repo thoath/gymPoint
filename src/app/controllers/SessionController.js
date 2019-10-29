@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import User from '../models/User';
 import auth from '../../config/auth';
+import textProp from '../../utils/properties/textProperties';
 
 /**
  * Controlador de sessao, utilizado apenas para usuario administradores
@@ -18,7 +19,7 @@ class SessionController {
   async store(req, res) {
     if (!(await User.isValidLoginJson(req))) {
       res.status(401).json({
-        error: 'Parâmetros inválidos, verifique o email informado',
+        error: textProp.prop.get('json.request.invalid.parameters'),
       });
     }
 
@@ -31,7 +32,9 @@ class SessionController {
     });
 
     if (!userExist || !(await userExist.checkPwd(password))) {
-      return res.status(401).json({ error: 'Usuário ou senha inválidos.' });
+      return res.status(401).json({
+        error: textProp.prop.get('login.validation.invalid.credentials'),
+      });
     }
 
     const { id, name, provider } = userExist;

@@ -1,11 +1,14 @@
 import Registration from '../models/Registration';
 import Contract from '../models/Contract';
 import Student from '../models/Student';
+import textProp from '../../utils/properties/textProperties';
 
 class RegistrationController {
   async store(req, res) {
     if (!(await Registration.isJsonCreateValid(req))) {
-      return res.status(400).json({ error: 'Parâmetros inválidos.' });
+      return res.status(400).json({
+        error: textProp.prop.get('json.request.invalid.parameters'),
+      });
     }
 
     const { student_id, contract_id } = req.body;
@@ -18,9 +21,9 @@ class RegistrationController {
     });
 
     if (registrationUserExist) {
-      return res
-        .status(401)
-        .json({ error: 'O usuário já tem um plano ativo.' });
+      return res.status(401).json({
+        error: textProp.prop.get('registration.validation.already.commited'),
+      });
     }
 
     const contractExist = await Contract.findOne({
@@ -28,7 +31,11 @@ class RegistrationController {
     });
 
     if (!contractExist) {
-      return res.status(400).json({ error: 'Plano informado não existe.' });
+      return res.status(400).json({
+        error: textProp.prop.get(
+          'registration.validation.contract.already.exist'
+        ),
+      });
     }
 
     const registration = await Registration.create(req.body);
@@ -68,6 +75,12 @@ class RegistrationController {
   }
 
   async update(req, res) {
+    if (!(await Registration.isValidUpdateJson(req))) {
+      return res
+        .status(400)
+        .json({ error: textProp.prop.get('json.request.invalid.parameters') });
+    }
+
     return res.json();
   }
 

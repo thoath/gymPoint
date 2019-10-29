@@ -1,4 +1,5 @@
 import Student from '../models/Student';
+import textProp from '../../utils/properties/textProperties';
 
 /**
  * Controlador das regras de negocio para estudantes
@@ -13,7 +14,9 @@ class StudentController {
    */
   async store(req, res) {
     if (!(await Student.isJsonCreateValid(req))) {
-      return res.status(401).json({ error: 'Parâmetros inválidos.' });
+      return res
+        .status(401)
+        .json({ error: textProp.prop.get('json.request.invalid.parameters') });
     }
 
     const student = await Student.findOne({
@@ -25,7 +28,7 @@ class StudentController {
     if (student) {
       return res
         .status(401)
-        .json({ error: 'Estudante ja existe com esse e-mail.' });
+        .json({ error: textProp.prop.get('student.validation.already.exist') });
     }
 
     const { id, name, email, active } = await Student.create(req.body);
@@ -46,7 +49,9 @@ class StudentController {
    */
   async update(req, res) {
     if (!(await Student.isJsonUpdateValid(req))) {
-      return res.status(401).json({ error: 'Parâmetros inválidos.' });
+      return res
+        .status(401)
+        .json({ error: textProp.prop.get('json.request.invalid.parameters') });
     }
 
     const { email } = req.body;
@@ -58,9 +63,9 @@ class StudentController {
       });
 
       if (studentExist) {
-        return res
-          .status(401)
-          .json({ error: 'Estudante já existe com esse email.' });
+        return res.status(401).json({
+          error: textProp.prop.get('student.validation.already.exist'),
+        });
       }
     }
 

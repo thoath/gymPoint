@@ -1,3 +1,4 @@
+import textProp from '../../utils/properties/textProperties';
 import Contract from '../models/Contract';
 
 /**
@@ -15,7 +16,9 @@ class ContractController {
 
   async store(req, res) {
     if (!(await Contract.isJsonCreateValid(req))) {
-      return res.status(401).json({ error: 'Parâmetros inválidos.' });
+      return res
+        .status(401)
+        .json({ error: textProp.prop.get('json.request.invalid.parameters') });
     }
 
     const contractExist = await Contract.findOne({
@@ -27,7 +30,7 @@ class ContractController {
     if (contractExist) {
       return res
         .status(401)
-        .json({ error: 'Contrato já existe com esse titulo.' });
+        .json({ error: textProp.prop.get('contract.valitaion.already.exist') });
     }
 
     const { id, title, duration, price, active } = await Contract.create(
@@ -45,13 +48,17 @@ class ContractController {
 
   async update(req, res) {
     if (!(await Contract.isValidUpdateJson(req))) {
-      return res.status(401).json({ error: 'Parâmetros inválidos.' });
+      return res
+        .status(401)
+        .json({ error: textProp.prop.get('json.request.invalid.parameters') });
     }
 
     const contract = await Contract.findByPk(req.params.id);
 
     if (!contract) {
-      return res.status(400).json({ error: 'Contrato não encontrado.' });
+      return res
+        .status(400)
+        .json({ error: textProp.prop.get('contract.valitaion.not.found') });
     }
 
     const { title } = req.body;
@@ -64,9 +71,9 @@ class ContractController {
       });
 
       if (contractExist) {
-        return res
-          .status(401)
-          .json({ error: 'Contrato já existe com esse titulo.' });
+        return res.status(401).json({
+          error: textProp.prop.get('contract.valitaion.already.exist'),
+        });
       }
     }
 
@@ -84,7 +91,9 @@ class ContractController {
     const contract = await Contract.findByPk(req.params.id);
 
     if (!contract) {
-      return res.status(400).json({ error: 'Contrato não encontrado.' });
+      return res
+        .status(400)
+        .json({ error: textProp.prop.get('contract.valitaion.not.found') });
     }
 
     await contract.destroy();

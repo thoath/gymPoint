@@ -58,9 +58,9 @@ class Registration extends Model {
    */
   static isValidUpdateJson(req) {
     const schema = Yup.object().shape({
-      start_date: Yup.date().required(),
-      student_id: Yup.string().required(),
-      contract_id: Yup.string().required(),
+      start_date: Yup.date(),
+      student_id: Yup.string(),
+      contract_id: Yup.string(),
     });
 
     return schema.isValid(req.body);
