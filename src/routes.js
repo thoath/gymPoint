@@ -53,7 +53,7 @@ routes.delete('/contract/:id', ContractController.delete);
  */
 routes.get('/registration', RegistrationController.index);
 routes.post('/registration', RegistrationController.store);
-routes.put('/registration', RegistrationController.update);
-routes.delete('/registration', RegistrationController.delete);
+routes.put('/registration/:id', RegistrationController.update);
+routes.delete('/registration/:id', RegistrationController.delete);
 
 export default routes;

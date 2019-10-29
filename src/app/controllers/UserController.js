@@ -41,6 +41,11 @@ class UserController {
     });
   }
 
+  /**
+   * Atualiza um usuario admin no sistema
+   * @param {*} req JSON com informacao de atualizacao do usuario
+   * @param {*} res JSON resposta da operacao realizada
+   */
   async update(req, res) {
     return res.json();
   }
