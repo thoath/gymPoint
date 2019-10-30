@@ -4,6 +4,7 @@ import Contract from '../models/Contract';
 import Student from '../models/Student';
 import textProp from '../../utils/properties/textProperties';
 import RegistrationMail from '../jobs/RegistrationMail';
+import CancelationMail from '../jobs/CancelationMail';
 import Queue from '../../lib/Queue';
 
 /**
@@ -179,6 +180,14 @@ class RegistrationController {
 
     await registration.update({
       canceled_at: new Date(),
+    });
+
+    const student = await Student.findByPk(registration.student_id);
+    const contract = await Contract.findByPk(registration.contract_id);
+
+    await Queue.add(CancelationMail.key, {
+      contract,
+      student,
     });
 
     return res.json({ success: true });

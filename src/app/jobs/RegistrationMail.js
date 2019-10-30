@@ -2,6 +2,7 @@ import { format, parseISO } from 'date-fns';
 import pt from 'date-fns/locale/pt';
 import Intl from 'intl';
 import Mail from '../../lib/Mail';
+import textProp from '../../utils/properties/textProperties';
 
 class RegistrationMail {
   get key() {
@@ -13,7 +14,7 @@ class RegistrationMail {
 
     await Mail.sendMail({
       to: `${student.name} <${student.email}`,
-      subject: 'Nova matrícula',
+      subject: textProp.prop.get('email.registration.student.subject'),
       template: 'registration',
       context: {
         title: contract.title,
