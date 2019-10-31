@@ -6,14 +6,15 @@ import SessionController from './app/controllers/SessionController';
 import StudentController from './app/controllers/StudentController';
 import ContractController from './app/controllers/ContractController';
 import RegistrationController from './app/controllers/RegistrationController';
+import CheckinController from './app/controllers/CheckinController';
 
 const routes = new Router();
 
 /**
  * Rotas que nao precisam de autorizacao para serem usadas.
  */
+routes.post('/students/:id/checkin', CheckinController.store);
 routes.post('/login', SessionController.store);
-
 /**
  * A partir daqui, todas as rotas precisam estar autenticadas.
  */
@@ -55,5 +56,10 @@ routes.get('/registration', RegistrationController.index);
 routes.post('/registration', RegistrationController.store);
 routes.put('/registration/:id', RegistrationController.update);
 routes.delete('/registration/:id', RegistrationController.delete);
+
+/**
+ * rotas de checkins de alunos
+ */
+routes.get('/students/:id/checkin', CheckinController.index);
 
 export default routes;
