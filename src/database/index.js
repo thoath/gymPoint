@@ -5,8 +5,9 @@ import User from '../app/models/User';
 import Student from '../app/models/Student';
 import Contract from '../app/models/Contract';
 import Registration from '../app/models/Registration';
+import Help from '../app/models/Help';
 
-const models = [User, Student, Contract, Registration];
+const models = [User, Student, Contract, Registration, Help];
 
 /**
  * Iniciliza todos os models da api, conectano ao banco configurado

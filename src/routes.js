@@ -7,6 +7,7 @@ import StudentController from './app/controllers/StudentController';
 import ContractController from './app/controllers/ContractController';
 import RegistrationController from './app/controllers/RegistrationController';
 import CheckinController from './app/controllers/CheckinController';
+import HelpController from './app/controllers/HelpController';
 
 const routes = new Router();
 
@@ -15,14 +16,22 @@ const routes = new Router();
  */
 routes.post('/students/:id/checkin', CheckinController.store);
 routes.post('/login', SessionController.store);
+
+/**
+ * Rotas para serem usadas por aluno
+ */
+
+routes.post('/students/:id/help', HelpController.store);
+
 /**
  * A partir daqui, todas as rotas precisam estar autenticadas.
  */
 routes.use(authMiddleware);
 
 /**
- * Rotas de estudantes
+ * Rota de ajuda aos alunos
  */
+routes.put('/students/help/:id', HelpController.update);
 
 /**
  * A partir daqui, todas as rotas precisam estar autenticadas como administrador
@@ -30,32 +39,42 @@ routes.use(authMiddleware);
 routes.use(authAdmMiddleware);
 
 /**
- * Rotas de estudantes
+ * Rotas de manutencao de estudantes
  */
-routes.post('/student', StudentController.store);
-routes.put('/student/:id', StudentController.update);
+routes.post('/students', StudentController.store);
+routes.put('/students/:id', StudentController.update);
 
 /**
  * Rotas de usuarios administradotes
  */
-routes.post('/user', UserController.store);
-routes.put('/user', UserController.update);
+routes
+  .route('/user')
+  .post(UserController.store)
+  .put(UserController.update);
 
 /**
  * Rotas de planos da academia
  */
-routes.get('/contract', ContractController.index);
-routes.post('/contract', ContractController.store);
-routes.put('/contract/:id', ContractController.update);
-routes.delete('/contract/:id', ContractController.delete);
+routes
+  .route('/contract')
+  .get(ContractController.index)
+  .post(ContractController.store);
+routes
+  .route('/contract/:id')
+  .put(ContractController.update)
+  .delete(ContractController.delete);
 
 /**
  * Rotas de matriculas da academia
  */
-routes.get('/registration', RegistrationController.index);
-routes.post('/registration', RegistrationController.store);
-routes.put('/registration/:id', RegistrationController.update);
-routes.delete('/registration/:id', RegistrationController.delete);
+routes
+  .route('/registration')
+  .get(RegistrationController.index)
+  .post(RegistrationController.store);
+routes
+  .route('/registration/:id')
+  .put(RegistrationController.update)
+  .delete(RegistrationController.delete);
 
 /**
  * rotas de checkins de alunos
